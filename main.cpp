@@ -33,7 +33,10 @@ void solve(int N, std::vector<double> a, std::vector<double> b, std::vector<doub
     //     std::cout << "phi " << phi.at(i) <<std::endl;
     // }
 
-    std::ofstream ofs("result.dat");
+    std::string name;
+    std::cout << "file name > \n";
+    std::cin >> name;
+    std::ofstream ofs(name);
     for(int i=0; i < N; i++) {
         ofs << 1.0 * i / (N-1) << " " << phi.at(i) << std::endl;
     }
@@ -120,9 +123,9 @@ int main(void) {
     }
 
     //データ出力
-    // for(int i=0; i < M; i++) {
-    //     std::cout << i << " : alpha = " << alpha[i] << ", beta = " << beta[i] << ", f = " << f[i] << std::endl;
-    // }
+    for(int i=0; i < M; i++) {
+        std::cout << i << " : alpha = " << alpha[i] << ", beta = " << beta[i] << ", f = " << f[i] << std::endl;
+    }
 
     //K_iiなど生成
     std::vector<double> K_diag(N), K_offdiag(N-1);
@@ -152,17 +155,17 @@ int main(void) {
         b.at(1) = b.at(1) - K_offdiag.at(0) * p1;
         K_offdiag.at(0) = 0;
     } else if(b_type1 == 3) {
-        K_diag.at(0) += gamma1;
-        b.at(0) += q1;
+        K_diag.at(0) = K_diag.at(0) + gamma1;
+        b.at(0) = b.at(0) + q1;
     }
     if(b_type2 == 1) {
         K_diag.at(N-1) = 1.0;
         b.at(N-1) = p2;
         b.at(N-2) = b.at(N-2) - K_offdiag.at(N-3) * p2;
         K_offdiag.at(N-2) = 0;
-    } else if(b_type1 == 3) {
-        K_diag.at(N-1) += gamma2;
-        b.at(N-1) += q2;
+    } else if(b_type2 == 3) {
+        K_diag.at(N-1) = K_diag.at(N-1) + gamma2;
+        b.at(N-1) = b.at(N-1) + q2;
     }
     std::cout << "boundary OK\n";
 
